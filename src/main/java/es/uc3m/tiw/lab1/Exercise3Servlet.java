@@ -1,4 +1,4 @@
-package es.uc3m.tiw;
+package es.uc3m.tiw.lab1;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,21 +12,23 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class Exercise1Servlet
  */
-@WebServlet("/hi")
-public class Exercise1Servlet extends HttpServlet {
+@WebServlet("/parameters")
+public class Exercise3Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Exercise1Servlet() {
+    public Exercise3Servlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PrintWriter out = response.getWriter();
-        out.println("Hi");
-        out.close();
+    	String name = request.getParameter("name");
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+		out.println("Petition recibed by GET");
+		out.println("<h1>Hi "+name +"</h1>");
+		out.close();
     }
 }

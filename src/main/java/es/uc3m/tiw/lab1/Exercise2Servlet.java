@@ -1,4 +1,4 @@
-package es.uc3m.tiw;
+package es.uc3m.tiw.lab1;
 
 import java.io.IOException;
 import java.io.PrintWriter;
