@@ -69,6 +69,8 @@ public class LoginServlet extends HttpServlet {
 			page = LISTADO_JSP;
 
 		}
+		else {
+			page = LOGIN_JSP;}
 
 		
 		config.getServletContext().getRequestDispatcher(page).forward(request, response);

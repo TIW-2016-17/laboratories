@@ -42,15 +42,20 @@ public class Exercise2Servlet extends HttpServlet {
 		String language = request.getLocale().getDisplayLanguage();
 		String remoteAddress = request.getRemoteAddr();
 
-		sb.append("PROTOCOL=" + protocol);
+		sb.append("PROTOCOL=");
+		sb.append(protocol);
 		sb.append(NEW_LINE);
-		sb.append("URL=" + url);
+		sb.append("URL=");
+		sb.append(url);
 		sb.append(NEW_LINE);
-		sb.append("METHOD=" + method);
+		sb.append("METHOD=");
+		sb.append(method);
 		sb.append(NEW_LINE);
-		sb.append("LANGUAGE=" + language);
+		sb.append("LANGUAGE=");
+		sb.append(language);
 		sb.append(NEW_LINE);
-		sb.append("REMOTE ADDRESS=" + remoteAddress);
+		sb.append("REMOTE ADDRESS=");
+		sb.append(remoteAddress);
 		sb.append(NEW_LINE);
 
 		Enumeration<String> headerNames = request.getHeaderNames();
