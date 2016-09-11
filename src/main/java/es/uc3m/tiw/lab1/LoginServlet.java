@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet("/loginServlet")
 public class LoginServlet extends HttpServlet {
+	private static final String USERS_LIST = "usersList";
 	private static final String USERS = "users";
 	private static final String KEY = "key";
 	private static final String NAME = "name";
@@ -44,6 +46,11 @@ public class LoginServlet extends HttpServlet {
 		usersList.add("Elizabeth");
 		usersList.add("Martha");
 		usersList.add("Bill");
+		
+		ServletContext context = config.getServletContext();
+	    if (context.getAttribute(USERS_LIST) == null) {
+	        context.setAttribute(USERS_LIST, usersList);
+	    }
 	}
 
 	/**

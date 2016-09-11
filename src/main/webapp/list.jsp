@@ -23,7 +23,9 @@
 			<th>Name</th>
 		</tr>
 	<%
-		List<String> userList = (ArrayList) request.getAttribute("users");
+		//List<String> userList = (ArrayList) request.getAttribute("users");
+		ServletContext context = config.getServletContext();
+		List<String> userList = (ArrayList) context.getAttribute("usersList");
 		for (String name : userList) { 
 	%>
 		<tr>
