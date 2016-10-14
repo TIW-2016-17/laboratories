@@ -6,6 +6,7 @@ package es.uc3m.tiw.lab1.domains;
  *
  */
 public class User {
+	private int id;
 	private String name;
 	private String lastName;
 	private String user;
@@ -52,5 +53,18 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	
 }

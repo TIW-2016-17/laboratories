@@ -1,14 +1,18 @@
 package es.uc3m.tiw.lab1;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,11 +20,18 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import es.uc3m.tiw.lab1.domains.User;
+import es.uc3m.tiw.lab2.Connector;
+import es.uc3m.tiw.lab2.daos.UserDAO;
+import es.uc3m.tiw.lab2.daos.UserDAOImpl;
 
 /**
  * Servlet implementation class Ejercicio4Servlet
  */
-@WebServlet("/loginServlet")
+@WebServlet(
+		urlPatterns="/loginServlet",
+		loadOnStartup=1,
+		initParams={@WebInitParam(name="configuration", value="es.uc3m.tiw.lab2.persistence")}
+		)
 public class LoginServlet extends HttpServlet {
 	private static final String ERRORS_ATTRIBUTE = "errors";
 	private static final String MESSAGE_ATTRIBUTE = "message";
@@ -38,6 +49,7 @@ public class LoginServlet extends HttpServlet {
 	//private List<String> usersList;
 	
 	private User user;
+	private UserDAO dao;   
 	private ArrayList<User> users;
 
 	/**
@@ -51,25 +63,21 @@ public class LoginServlet extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
 		this.config = config;
-		/*
-		usersList = new ArrayList<>();
-		usersList.add("John");
-		usersList.add("Elizabeth");
-		usersList.add("Martha");
-		usersList.add("Bill");
-		
-		ServletContext context = config.getServletContext();
-	    if (context.getAttribute(USERS_LIST) == null) {
-	        context.setAttribute(USERS_LIST, usersList);
-	    }*/
-		 user = new User("1", "1", "1", "1");
-		User user2 = new User("John", "Smith", "john", "12345678");
-		User user3 = new User("Martha", "Jhones", "martha", "12345678");
-		
-		users = new ArrayList<User>();
-		users.add(user);
-		users.add(user2);
-		users.add(user3);
+	
+		String configuracion = (String)config.getServletContext().getInitParameter("configuracion");
+		ResourceBundle rb = ResourceBundle.getBundle(configuracion);
+		Connector connector = Connector.getInstance();
+		//Connection con = conector.crearConexionMySQL(rb);
+		Connection con = connector.createConnectionMySQLWithJNDI(rb);
+		dao = new UserDAOImpl();
+		dao.setConnection(con); 
+		dao.setQuerys(rb);
+		try {
+			users = (ArrayList<User>) dao.listUsers();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -81,30 +89,6 @@ public class LoginServlet extends HttpServlet {
 		
 		this.getServletContext().getRequestDispatcher(LOGIN_JSP).forward(request, response);
 
-		/*String page = "";		
-
-		boolean authenticated;
-		HttpSession session = request.getSession();
-
-		if (session.getAttribute(AUTHENTICATED) != null) {
-			authenticated = (boolean) session.getAttribute(AUTHENTICATED);
-		} else {
-			authenticated = false;			
-			page = LOGIN_JSP;
-
-		}
-
-		if (authenticated) {			
-			page = LISTADO_JSP;
-
-		}
-		else {
-			page = LOGIN_JSP;}
-
-		
-		config.getServletContext().getRequestDispatcher(page).forward(request, response);
-		
-*/
 	}
 
 	/**
